@@ -1,25 +1,26 @@
-module BxBlockConversations
+module BxBlockMessages
     class MessagesController < ApplicationController
         skip_before_action :verify_authenticity_token
        
         def index
-        @messages = Message.all
-        render json: {'Messages': @Messages}
+            @messages = Message.all
+            render json: {'Messages': @messages}
         end
     
         def create
-        @message = Message.new(message_params)
-        if @message.save
-            redirect_to messages_path, notice: 'Message sent successfully.'
-        else
-            redirect_to messages_path, alert: 'Failed to send message.'
-        end
+            @message = Message.create!(message_params)
+            if @message.save
+                render json: { 'Message': @message }
+            else
+                render json: @message.errors
+            end
         end
     
         private
     
         def message_params
-        params.require(:message).permit(:user_id, :conversation_id, :content)
+            # debugger
+        params.permit(:user_id, :conversation_id, :content)
         end
     end
 end 
