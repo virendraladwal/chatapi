@@ -18,3 +18,4 @@ class Conversation < ApplicationRecord
     # end
 
 end
+
